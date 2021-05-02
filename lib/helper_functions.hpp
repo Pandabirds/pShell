@@ -10,6 +10,13 @@
  * 
  * @fn std::string ReturnAsLower(std::string str)
  * @brief Return a string as lowercase.
+ * 
+ * @fn std::string AutoIndent(int layers)
+ * @brief Returns (4 * layers) spaces. Used for quick indentation throughout the shell.
+ * 
+ * @fn bool OnlyDigits(std::string str, const bool kForMath = false)
+ * @brief Returns a boolean value indicating whether or not the given string only
+ * contains digits.
  */
 
 #pragma once
@@ -76,5 +83,50 @@ namespace helper {
     std::string ReturnAsLower(std::string str) {
         helper::ConvertToLower(str);
         return str;
+    }
+
+    /**
+     * Returns (4 * layers) spaces. Used for quick indentation throughout the shell.
+     * 
+     * @param layers An integer representing the amount of layers of indentation.
+     * @return The string made from the spaces to be used for indentation.
+     */
+    std::string AutoIndent(const int layers) {
+        std::string output_string = "";
+        for (int i = 0; i < layers; ++i) {
+            output_string.append("    ");
+        }
+        return output_string;
+    }
+
+    /**
+     * Returns a boolean value indicating whether or not the given string only
+     * contains digits.
+     * 
+     * @param str The string to test.
+     * @param kForMath Whether or not to include the extra symbol(s): '-', '.',
+     * it will also only accept one case of '.' if kForMath is true.
+     * @return Whether or not there are only digits in str.
+     */
+    bool OnlyDigits(std::string str, const bool kForMath = false) {
+        
+        if (kForMath) {
+            bool foundDecimal = false;
+            for (const auto &character : str) {
+                if (!(std::isdigit(character) || character == '-' || (!foundDecimal && character == '.')))
+                    return false;
+                if (character == '.') {
+                    foundDecimal = true;
+                }
+            }
+        }
+
+        if (!kForMath) {
+            for (const auto &character : str) {
+                if (!std::isdigit(character))
+                    return false;
+            }
+        }
+        return true;
     }
 }
