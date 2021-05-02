@@ -21,6 +21,105 @@
 extern double CalcNumber;
 
 namespace calc {
+
+    int ProcessCommands(std::vector<std::string> cmds) {
+        if (cmds[0] == "quit") {
+            exit(0);
+        }
+
+        if (cmds[0] == "exit") {
+            return 1;
+        }
+
+        if (cmds[0] == "add" && cmds.size() >= 1) {
+            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "") {
+                CalcNumber += stod(cmds[1]);
+                return 0;
+            }
+        }
+
+        if (cmds[0] == "sub" && cmds.size() >= 1) {
+            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "") {
+                CalcNumber -= stod(cmds[1]);
+                return 0;
+            }
+        }
+
+        if (cmds[0] == "mul" && cmds.size() >= 1) {
+            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "") {
+                CalcNumber *= stod(cmds[1]);
+                return 0;
+            }
+        }
+
+        if (cmds[0] == "div" && cmds.size() >= 1) {
+            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "" && cmds[1] != "0") {
+                CalcNumber /= stod(cmds[1]);
+                return 0;
+            }
+        }
+
+        if (cmds[0] == "pow" && cmds.size() >= 1) {
+            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "") {
+                CalcNumber = pow(CalcNumber, stod(cmds[1]));
+                return 0;
+            }
+        }
+
+        if (cmds[0] == "rot" && cmds.size() >= 1) {
+            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "") {
+                CalcNumber = pow(CalcNumber, 1.0 / stod(cmds[1]));
+                return 0;
+            }
+        }
+
+        if (cmds[0] == "sqrt") {
+            CalcNumber = sqrt(CalcNumber);
+            return 0;
+        }
+
+        if (cmds[0] == "trunc") {
+            CalcNumber = trunc(CalcNumber);
+            return 0;
+        }
+
+        if (cmds[0] == "sin") {
+            CalcNumber = sin(CalcNumber);
+            return 0;
+        }
+
+        if (cmds[0] == "cos") {
+            CalcNumber = cos(CalcNumber);
+            return 0;
+        }
+
+        if (cmds[0] == "tan") {
+            CalcNumber = tan(CalcNumber);
+            return 0;
+        }
+
+        if (CalcNumber != 0) {
+            if (cmds[0] == "log") {
+                CalcNumber = log(CalcNumber);
+            }
+
+            if (cmds[0] == "log2") {
+                CalcNumber = log2(CalcNumber);
+            }
+
+            if (cmds[0] == "log10") {
+                CalcNumber = log10(CalcNumber);
+            }
+        }
+
+        if (helper::OnlyDigits(cmds[0], true)) {
+            CalcNumber = stod(cmds[0]);
+            return 0;
+        }
+
+        return 0;
+    }
+
     /**
      * The function called each time the calculator asks for a command.
      * 
@@ -38,48 +137,11 @@ namespace calc {
         cmds = helper::SplitString(user_input, "; ");
         helper::ConvertToLower(cmds[0]);
 
-        // Processing usr commands.
-        if (cmds[0] == "quit") {
-            exit(0);
-        }
-
-        if (cmds[0] == "exit") {
+        // Processing user commands.
+        if (ProcessCommands(cmds) == 1)
             return 1;
-        }
-
-        if (cmds[0] == "add" && cmds.size() >= 1) {
-            if (helper::OnlyDigits(cmds[1], true)) {
-                CalcNumber += stod(cmds[1]);
-            }
+        
         return 0;
-        }
-
-        if (cmds[0] == "sub" && cmds.size() >= 1) {
-            if (helper::OnlyDigits(cmds[1], true)) {
-                CalcNumber -= stod(cmds[1]);
-            }
-        return 0;
-        }
-
-        if (cmds[0] == "mul" && cmds.size() >= 1) {
-            if (helper::OnlyDigits(cmds[1], true)) {
-                CalcNumber *= stod(cmds[1]);
-            }
-        return 0;
-        }
-
-        if (cmds[0] == "div" && cmds.size() >= 1) {
-            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "0") {
-                CalcNumber /= stod(cmds[1]);
-            }
-        return 0;
-        }
-
-        if (cmds[0] == "pow" && cmds.size() >= 1) {
-            if (helper::OnlyDigits(cmds[1], true)) {
-                CalcNumber = pow(CalcNumber, stod(cmds[1]));
-            }
-        }
     }
 
     /**
