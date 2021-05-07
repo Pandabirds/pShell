@@ -1,18 +1,6 @@
 /**
     @file calc.hh
-    @brief The header file that contains the calculator for pShell.
-    
-    @namespace calc
-    @brief The set of functions used by the calculator to function.
-        
-        @fn inline int ProcessCommands(const std::vector<std::string> cmds)
-        @brief The function that processes user commands.
-
-        @fn inline int CalcCycle(const int kLayers)
-        @brief The function called each time the calculator asks for a command.
-
-        @fn inline int main(const int kLayers)
-        @brief The function that starts running the calculator.
+    The header file that contains the calculator for pShell.
  */
 
 #ifndef PSHELL_LIB_CALC_CMD_HH_
@@ -30,11 +18,12 @@ extern double CalcNumber;
 namespace calc {
 
     /**
+        @fn inline int ProcessCommands(const std::vector<std::string> cmds)
         The function used to process commands from the user.
 
         @param[in] cmds A vector of the commands.
         @param[out] exit_Code The exit code of the function.
-     */
+    */
     inline int ProcessCommands(const std::vector<std::string> cmds) {
         if (cmds[0] == "quit") {
             exit(0);
@@ -101,11 +90,12 @@ namespace calc {
     }
 
     /**
+        @fn inline int CalcCycle(const int kLayers)
         The function called each time the calculator asks for a command.
 
         @param[in] kLayers The amount of layers to print out.
         @param[out] exit_code The exit code.
-     */
+    */
     inline int CalcCycle(const int kLayers) {
         std::string user_input;
         std::vector<std::string> cmds;
@@ -125,10 +115,11 @@ namespace calc {
     }
 
     /**
+        @fn inline int main(const int kLayers)
         The function that starts running the calculator.
 
         @param[out] exit_Code The exit code for the calculator.
-     */
+    */
     inline int main(const int kLayers) {
 
         while (true) {

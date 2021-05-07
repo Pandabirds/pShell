@@ -1,3 +1,8 @@
+/**
+    @file help_cmd.hh
+    The header file that contains the help command for pShell.
+*/
+
 #ifndef PSHELL_LIB_HELP_CMD_HH_
 #define PSHELL_LIB_HELP_CMD_HH_
 
@@ -7,6 +12,14 @@
 #include <vector>
 
 namespace help {
+    /**
+        @fn inline int main(const int kLayers, std::vector<std::string> cmds)
+        The main function for the help command.
+
+        @param[in] kLayers The amount of layers to print at.
+        @param[in] cmds A vector holding the user-commands.
+        @param[out] exit_code The exit code.
+    */
     inline int main(const int kLayers, std::vector<std::string> cmds) {
         std::cout << "-HELP-" << '\n';
 

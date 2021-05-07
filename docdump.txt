@@ -1,0 +1,302 @@
+/**
+    @file main.cc
+    The main file for pShell. This is the file that is compiled and run.
+*/
+    /**
+        @fn int CommandCycle(const int kLayers)
+        The function called each time the shell asks for a main-command.
+        
+        @param[in] kLayers The kLayers constant from main().
+        @param[out] exit_code The exit code.
+    */
+
+ /**
+    @file small_commands.hh
+    A header file for very small files.
+*/
+    /**
+        @fn inline void time_command(const int kLayers)
+        Outputs the current time.
+
+        @param[in] kLayers The number of layers to output with.
+    */
+
+/**
+    @file multife_command.hh
+    The header file that contains the multi-purpoes file explorer for pShell.
+*/
+    /**
+        @fn inline bool FileExists(const std::string kPath)
+        Function for testing if a file exists or not. It uses the C file handling
+        for the conditional.
+
+        @param[in] kPath the path of the file.
+        @param[out] does_file_exist Whether or not the file exists.
+    */
+    /**
+        @fn inline int BackDirectory(const unsigned int kRepeats)
+        Function used by the user to go up a certain amount of directories.
+
+        @param[in] kRepeats The amount of times to go up a directory.
+        @param[out] exit_code The exit code.
+    */
+    /**
+        @fn inline std::fstream& GotoLine(std::fstream& file, unsigned int num)
+        Sets a file's current line.
+        https://stackoverflow.com/questions/5207550/in-c-is-there-a-way-to-go-to-a-specific-line-in-a-text-file
+        
+        @param[in] file The variable containing the file handler.
+        @param[in] num The line number (Starts from 0)
+        @param[out] file A reference to the file.
+    */
+     /**
+        @fn inline bool IsFile(const std::string kPath)
+        Returns a boolean value indicating whether or not the given path leads to a file.
+
+        @param[in] kPath The path of the file as a string.
+        @param[out] is_file Whether or not the path leads to a file.
+    */
+     /**
+        @fn inline int DeleteItem(const std::string kPath, const int kLayers, const std::vector<std::string> kCmds)
+        Deletes an item with user confirmation, for multife commands.
+
+        @param[in] kPath The path of the file to delete.
+        @param[in] kLayers The amount of layers to print at.
+        @param[in] kCmds The user commands, incase the user wants to automatically bypass the confirmation.
+    */
+    /**
+        @fn inline int VectorToFile(const std::string kPath, const std::vector<std::string> kLineHolder)
+        Outputs all the strings in a vector into a file.
+
+        @param[in] kPath The path to the file.
+        @param[in] kLineHolder A vector of std::string holding all the lines to be added.
+        @param[out] exit_code The exit code.
+    */
+    /**
+        @fn inline std::vector<std::string> FileToVector(const std::string kPath)
+        Returns a vector holding the lines of a file as strings.
+
+        @param[in] kPath The path to the file.
+        @param[out] line_holder A vector holding the lines of the file as strings.
+    */
+    /**
+        @fn inline size_t CountLines(const std::string kPath)
+        Returns the amount of lines in a file.
+
+        @param[in] kPath The path to the file.
+        @param[out] count The amount of lines in the file.
+    */
+    /**
+        @fn inline std::string AlignIndex(const int kIndex, const int kHighestIndex)
+        Aligns an index number to fit with a highest index, and returns it as a string.
+
+        @param[in] kIndex The index number to align.
+        @param[in] kHighestIndex The highest index, or the length the string should be.
+        @param[out] output_string The aligned index number as a string.
+    */
+    /**
+        @fn inline int PrintFile(const std::string kPath, const int kLayers, const bool kAddLineNumbers = true)
+        Prints the lines of a file.
+
+        @param[in] kPath The path to the file.
+        @param[in] kLayers The amount of layers it is printing at. Use 0 for normal
+        printing.
+        @param[in] kAddLineNumbers Boolean whether or not to add line numbers, default is true.
+        @param[out] exit_code The exit code.
+    */
+   /**
+        @fn inline std::string GetCurrentWorkingDirectory(void)
+        Returns the current working directory without using c-strings and getcwd().
+
+        @param[out] cwd The current working directory.
+    */
+    /**
+        @fn inline int CreateDirectory(const std::string kName)
+        Create a directory in the cwd.
+
+        @param[in] kName The name of the directory to create.
+        @param[out] exit_code The exit code.
+    */
+    /**
+        @fn inline int CreateFile(const std::string kName)
+        Creates a file in the cwd.
+
+        @param[in] kName The name of the file to create.
+        @param[out] exit_code The exit code.
+    */
+    /**
+        @fn inline void DuCommand(const std::string kPath, const int kLayers)
+        The du command in multife.
+
+        @param[in] kPath The path of the directory to use.
+        @param[in] kLayers The amount of layers to print out with.
+    */
+    /**
+        @fn inline int ListCurrentWorkingDirectory(const int kLayers)
+        Prints out the contents of the current working directory.
+
+        @param[in] kLayers The amount of layers it is printing at. Use 0 for normal printing.
+        @param[out] exit_code The exit code.
+    */
+    /**
+        @fn inline int WriteFileLine(const std::string kPath, const unsigned int kLineNumber, const std::string kContent)
+        Overwrites a single line in a file.
+
+        @param[in] kPath The path of the file to change a line in.
+        @param[in] kLineNumber The line number.
+        @param[in] kContent What to change the line to.
+        @param[out] exit_code The exit code.
+    */
+    /**
+        @fn inline int TypeWrite(const std::string kPath, const int kLayers)
+        The multife typewriter command.
+
+        @param[in] kPath The path of the file to edit.
+        @param[in] kLayers The amount of layers to print with.
+        @param[out] exit_code The exit code.
+    */
+    /**
+        @fn inline int ProcessCommands(std::vector<std::string> cmds, const int kLayers)
+        The function that processes user commands.
+
+        @param[in] cmds A vector of strings containing the commands to process.
+        @param[in] kLayers The amount of layers to print at.
+        @param[out] exit_code The exit code.
+    */
+    /** 
+        @fn inline int MultifeCommandCycle (const int kLayers)
+        The function called each time the calculator asks for a command.
+
+        @param[in] kLayers The amount of layers to print at.
+        @param[out] exit_code The exit code.
+    */
+    /**
+        @fn inline int main(const int kLayers)
+        The main function for multife.
+
+        @param[in] kLayers The amount of layers to print at.
+        @param[out] exit_code The exit code.
+    */
+
+/**
+    @file help_cmd.hh
+    The header file that contains the help command for pShell.
+*/
+    /**
+        @fn inline int main(const int kLayers, std::vector<std::string> cmds)
+        The main function for the help command.
+
+        @param[in] kLayers The amount of layers to print at.
+        @param[in] cmds A vector holding the user-commands.
+        @param[out] exit_code The exit code.
+    */
+
+/**
+    @file tri_cmd.hh
+    The header file that contains the triangle calculator for pShell.
+*/
+    /**
+        @class Triangle
+        The Triangle class to be used by the tri command.
+    */
+    /**
+        @fn inline int TriCommandCycle(const int kLayers, Triangle& triangle)
+        The function called each time main() wants a command.
+
+        @param[in] kLayers The amount of layers to print out.
+        @param[in] triangle The triangle to be used.
+        @param[out] exit_code The exit code.
+    */
+    /**
+        @fn inline int main(const int kLayers)
+        The function that starts running the triangle calculator.
+
+        @param[in] kLayers The amount of layers to print at.
+        @param[out] exit_code The exit code.
+    */
+
+/**
+    @file helper_functions.hh
+    A collection of helpful functions that ease the creation of pShell.
+*/
+    /**
+        @fn inline std::vector<std::string> SplitString(std::string str, const std::string kDelimiter)
+        Splits a string using a second string as a delimiter.
+
+        @param[in] str The string to split.
+        @param[in] kDelimiter The delimiter.
+        @param[out] split_string A vector of the split strings.
+    */
+    /**
+        @fn inline int ConvertToLower(std::string& str)
+        Converts a string to lowercase, then return a 0 if it was successful.
+
+        @param[in] str The string to convert.
+        @param[out] exit_code The exit code, 0 if successful.
+    */
+    /**
+        @fn inline std::string ReturnAsLower(std::string str)
+        Returns a string as lowercase.
+
+        @param[in] str The string to return as lowercase.
+        @param[out] lowercase_str The string as lowercase.
+    */
+    /**
+        @fn inline std:;string AutoIndent(const int kLayers)
+        Returns (4 * layers) spaces. Used for quick indentation throughout the shell.
+
+        @param[in] kLayers An integer representing the amount of layers of indentation.
+        @param[out] indent The string made from the spaces to be used for indentation.
+    */
+    /**
+        @fn inline bool OnlyDigits(const std::string kStr, const bool kFormath = false)
+        Returns a boolean value indicating whether or not the given string only 
+        contains digits.
+
+        @param[in] kStr The string to test.
+        @param[in] kForMath Whether or not to include the extra symbol(s): '-', '.', 
+        it will also only accept one case of '.' if kForMath is true. kForMath is 
+        set to false by default.
+        @param[out] are_there_only_digits Whether or not there are only digits in str.
+    */
+    /**
+        @fn inline bool IsStringInVector(const std::string kStr, const std::vector<std::string> kVector)
+        Returns a boolean value indicating whether or not a given string is in a 
+        vector.
+
+        @param[in] kStr The string to search for.
+        @param[in] kVector The vector to search through.
+        @param[out] is_string_in_vector Whether or not str was found in vector.
+    */
+    /**
+        @fn inline size_t CountDigits(unsigned int number)
+        Returns the amount of digits in an unsigned integer.
+
+        @param[in] number The unsigned number to count the digits of.
+        @param[out] count The amount of digits in the number.
+    */
+
+/**
+    @file calc.hh
+    The header file that contains the calculator for pShell.
+*/
+    /**
+        @fn inline int ProcessCommands(const std::vector<std::string> cmds)
+        The function used to process commands from the user.
+
+        @param[in] cmds A vector of the commands.
+        @param[out] exit_Code The exit code of the function.
+    */
+    /**
+        @fn inline int CalcCycle(const int kLayers)
+        The function called each time the calculator asks for a command.
+
+        @param[in] kLayers The amount of layers to print out.
+        @param[out] exit_code The exit code.
+    */
+    /**
+        @fn inline int main(const int kLayers)
+        The function that starts running the calculator.
+
+        @param[out] exit_Code The exit code for the calculator.
+    */

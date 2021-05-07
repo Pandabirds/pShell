@@ -1,27 +1,6 @@
 /**
     @file tri_cmd.hh
-    @brief The header file that contains the triangle calculator for pShell.
-    
-    @namespace tri
-    @brief The set of functions used by the triangle calculator to function.
-        @class Triangle
-        @brief A class used to store the basic information of triangles.
-            @public
-                double angle1_
-                double angle2_
-                double angle3_
-                double side1_
-                double side2_
-                double side3_
-
-                @fn void UpdateTriangle(void)
-                @brief Updates the triangle's angles and sides using trigonometry.
-    
-    @fn inline int TriCommandCycle(const int kLayers, Triangle& triangle)
-    @brief The function called each time man() wants a command.
-    
-    @fn inline int main(const int kLayers)
-    @brief The function that starts running the triangle calculator.
+    The header file that contains the triangle calculator for pShell.
 */
 
 #ifndef PSHELL_LIB_TRI_CMD_HH_
@@ -30,6 +9,10 @@
 #include <iostream>
 
 namespace tri {
+    /**
+        @class Triangle
+        The Triangle class to be used by the tri command.
+    */
     class Triangle {
         public:
             double angle1_ = -1.0;
@@ -47,9 +30,9 @@ namespace tri {
             double old_side3_ = -2.0;
 
             /**
-             * Checks if the triangle is right.
-             * @param[out] is_triangle_right Whether or not it is right.
-             */
+                Checks if the triangle is right.
+                @param[out] is_triangle_right Whether or not it is right.
+            */
             bool IsRight(void) {
                 return angle1_ == 90 || angle2_ == 90 || angle3_ == 90;
             }
@@ -71,8 +54,8 @@ namespace tri {
             }
 
             /**
-             * Updates the triangle's angles and sides using trigonometry.
-             */
+                Updates the triangle's angles and sides using trigonometry.
+            */
             void UpdateTriangle(void) {
                 while (HasBeenChanged()) {
                     bool angle1_known = angle1_ != -1.0;
@@ -87,21 +70,24 @@ namespace tri {
     };
 
     /**
-     * The function called each time main() wants a command.
-     * 
-     * @param[in] kLayers The amount of layers to print out.
-     * @param[in] triangle The triangle to be used.
-     * @param[out] exit_code The exit code.
-     */
+        @fn inline int TriCommandCycle(const int kLayers, Triangle& triangle)
+        The function called each time main() wants a command.
+
+        @param[in] kLayers The amount of layers to print out.
+        @param[in] triangle The triangle to be used.
+        @param[out] exit_code The exit code.
+    */
     inline int TriCommandCycle(const int kLayers, Triangle& triangle) {
         return 0;
     }
 
     /**
-     * The function that starts running the triangle calculator.
-     * 
-     * @param[out] exit_code The exit code.
-     */
+        @fn inline int main(const int kLayers)
+        The function that starts running the triangle calculator.
+
+        @param[in] kLayers The amount of layers to print at.
+        @param[out] exit_code The exit code.
+    */
     inline int main(const int kLayers) {
         std::cout << "-TRI-" << '\n';
 

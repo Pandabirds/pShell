@@ -1,13 +1,7 @@
 /**
     @file main.cc
-    @brief The main file for pShell. This is the file that is compiled and run.
-    
-    @fn int CommandCycle(const int kLayers)
-    @brief The function called each time the shell asks for a main-command.
-    
-    @fn int main(void)
-    @brief The main function of pShell. Returns 0 if successful.
- */
+    The main file for pShell. This is the file that is compiled and run.
+*/
 
 #include "lib/helper_functions.hh"
 #include "lib/calc_cmd.hh"
@@ -27,6 +21,7 @@
 double CalcNumber = 0;
 
 /**
+    @fn int CommandCycle(const int kLayers)
     The function called each time the shell asks for a main-command.
     
     @param[in] kLayers The kLayers constant from main().

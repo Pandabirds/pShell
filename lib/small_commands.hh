@@ -1,11 +1,6 @@
 /**
     @file small_commands.hh
-    @brief A header file for very small files.
-    
-    @namespace small_functions
-    @brief The namespace for storing the functions for the small commands.
-        @fn inline void time_command(const int kLayers)
-        @brief Outputs the current time.
+    A header file for very small files.
 */
 
 #ifndef PSHELL_LIB_SMALL_FUNCTIONS_HH_
@@ -18,7 +13,8 @@
 #include <iostream>
 
 namespace small_functions {
-    /** 
+    /**
+        @fn inline void time_command(const int kLayers)
         Outputs the current time.
 
         @param[in] kLayers The number of layers to output with.
