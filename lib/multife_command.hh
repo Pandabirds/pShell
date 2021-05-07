@@ -4,6 +4,10 @@
     
     @namespace multife
     @brief The set of functions used by the calculator to function.
+        @fn inline bool FileExists(const std::string kPath)
+        @brief Function for testing if a file exists or not. It uses the C file 
+        handling for the conditional.
+
         @fn inline int BackDirectory(const unsigned int kRepeats)
         @brief Function used by the user to go up a certain amount of directories.
 
@@ -13,11 +17,11 @@
         @fn std::fstream& GotoLine(std::fstream& file, unsigned int num)
         @brief Sets a file's current line.
 
-        @fn bool IsFile(const std::string path)
+        @fn bool IsFile(const std::string kPath)
         @brief Returns a boolean value indicating whether or not the given path leads
         to a file.
 
-        @fn int VectorToFile(const std::string path, const std::vector<std::string> line_holder)
+        @fn inline int VectorToFile(const std::string kPath, const std::vector<std::string> kLineHolder)
         @brief Outputs all the strings in a vector into a file.
 
         @fn std::vector<std::string> FileToVector(std::string path)
@@ -29,7 +33,7 @@
         @fn inline std::string AlignIndex(const int kIndex, const int kHighestIndex)
         @brief Aligns an index number to fit with a highest index, and returns it as a string.
 
-        @fn int PrintFile(std::string path, const int kLayers)
+        @fn inline int PrintFile(const std::string kPath, const int kLayers, const bool kAddLineNumbers = true)
         @brief Prints the lines of a file.
 
         @fn std::string GetCurrentWorkingDirectory()
@@ -58,10 +62,8 @@
     */
 
 //TODO: 21/5/0X
-//TODO: Fix the "are you sure bug".
-//TODO: Add copying files.
-//TODO: Add copy/cut and paste.
-//TODO: Add append typewriter.
+//TODO: add creating files
+//TODO: add creating directories
 
 #ifndef PSHELL_LIB_MULTIFE_COMMAND_HH_
 #define PSHELL_LIB_MULTIFE_COMMAND_HH_
@@ -80,6 +82,23 @@
 #include <string>
 
 namespace multife {
+
+    /**
+        Function for testing if a file exists or not. It uses the C file handling
+        for the conditional.
+
+        @param kPath the path of the file.
+        @return Whether or not the file exists.
+    */
+    inline bool FileExists(const std::string kPath) {
+        FILE* target_file;
+        
+        if ((target_file = fopen(kPath.c_str(), "r"))) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
         Function used by the user to go up a certain amount of directories.
@@ -148,7 +167,7 @@ namespace multife {
         std::string user_confirm;
         std::cout << helper::AutoIndent(kLayers) << "Are you sure you want to delete " << kPath << "? (y/n)" << '\n'; 
         std::cout << helper::AutoIndent(kLayers);
-        std::cin >> user_confirm;
+        std::getline(std::cin, user_confirm);
         if (!(user_confirm == "y")) {
             return 0;
         }
@@ -243,13 +262,19 @@ namespace multife {
         @param kPath The path to the file.
         @param kLayers The amount of layers it is printing at. Use 0 for normal
         printing.
+        @param kAddLineNumbers Boolean whether or not to add line numbers, default is true.
         @return The exit code.
      */
-    inline int PrintFile(const std::string kPath, const int kLayers) {
+    inline int PrintFile(const std::string kPath, const int kLayers, const bool kAddLineNumbers = true) {
         std::vector<std::string> line_holder = FileToVector(kPath);
         for (size_t i = 0; i < line_holder.size(); ++i) {
             const int kHighestIndex = line_holder.size() - 1;
-            std::cout << helper::AutoIndent(kLayers + 1) << AlignIndex(i, kHighestIndex) << "│" << line_holder[i] << '\n';
+            
+            std::cout << helper::AutoIndent(kLayers);
+            if (kAddLineNumbers) {
+                std::cout << AlignIndex(i, kHighestIndex) << "│";
+            }
+            std::cout << line_holder[i] << '\n';
         }
 
         return 0;
@@ -353,11 +378,21 @@ namespace multife {
     */
     inline int TypeWrite(const std::string kPath, const int kLayers) {
 
-        std::ofstream target_file;
-        target_file.open(kPath, std::ios::out);
+        std::fstream target_file;
+
+        if (FileExists(kPath)) {
+            PrintFile(kPath, kLayers, false);
+        }
+        
+        if (!FileExists(kPath)) {
+            target_file.open(kPath, std::ios::out);
+            target_file.close();
+        }
+
+        target_file.open(kPath, std::ios::app);
 
         while (true) {
-            std::cout << helper::AutoIndent(kLayers + 1);
+            std::cout << helper::AutoIndent(kLayers);
 
             std::string input;
             std::getline(std::cin, input);
