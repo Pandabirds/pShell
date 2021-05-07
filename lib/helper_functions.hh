@@ -4,23 +4,23 @@
     
     @namespace helper
     @brief A namespace containing the helper functions.
-        @fn std::vector<std::string> SplitString(std::string str, const std::string kDelimiter)
+        @fn inline std::vector<std::string> SplitString(std::string str, const std::string kDelimiter)
         @brief Splits a string using a second string as a delimiter.
 
-        @fn int ConvertToLower(std::string& str)
+        @fn inline int ConvertToLower(std::string& str)
         @brief Converts a string to lowercase, then return a 0 if it was successful.
         
-        @fn std::string ReturnAsLower(std::string str)
+        @fn inline std::string ReturnAsLower(std::string str)
         @brief Returns a string as lowercase.
         
-        @fn std::string AutoIndent(int layers)
+        @fn inline std::string AutoIndent(int layers)
         @brief Returns (4 * layers) spaces. Used for quick indentation throughout the shell.
         
-        @fn bool OnlyDigits(const std::string str, const bool kForMath = false)
+        @fn inline bool OnlyDigits(const std::string str, const bool kForMath = false)
         @brief Returns a boolean value indicating whether or not the given string only
         contains digits.
         
-        @fn bool IsStringInVector(std::string str, std::vector<std::string> vector)
+        @fn inline bool IsStringInVector(std::string str, std::vector<std::string> vector)
         @brief Returns a boolean value indicating whether or not a given string is in a vector. 
         contains digits.
 
@@ -42,9 +42,9 @@ namespace helper {
     /**
         Splits a string using a second string as a delimiter.
 
-        @param str The string to split.
-        @param kDelimiter The delimiter.
-        @return A vector of the split strings.
+        @param[in] str The string to split.
+        @param[in] kDelimiter The delimiter.
+        @param[out] split_string A vector of the split strings.
      */
     inline std::vector<std::string> SplitString(std::string str, const std::string kDelimiter) {
         // Using position variable to measure the distance between cases of the delimiter.
@@ -76,8 +76,8 @@ namespace helper {
     /**
         Converts a string to lowercase, then return a 0 if it was successful.
 
-        @param str The string to convert.
-        @return The exit code, 0 if successful.
+        @param[in] str The string to convert.
+        @param[out] exit_code The exit code, 0 if successful.
      */
     inline int ConvertToLower(std::string& str) {
         for (auto &character : str)
@@ -88,8 +88,8 @@ namespace helper {
     /**
         Returns a string as lowercase.
 
-        @param str The string to return as lowercase.
-        @return The string as lowercase.
+        @param[in] str The string to return as lowercase.
+        @param[out] lowercase_str The string as lowercase.
      */
     inline std::string ReturnAsLower(std::string str) {
         helper::ConvertToLower(str);
@@ -99,8 +99,8 @@ namespace helper {
     /**
         Returns (4 * layers) spaces. Used for quick indentation throughout the shell.
 
-        @param layers An integer representing the amount of layers of indentation.
-        @return The string made from the spaces to be used for indentation.
+        @param[in] layers An integer representing the amount of layers of indentation.
+        @param[out] indent The string made from the spaces to be used for indentation.
      */
     inline std::string AutoIndent(const int layers) {
         std::string output_string = "";
@@ -114,11 +114,11 @@ namespace helper {
         Returns a boolean value indicating whether or not the given string only 
         contains digits.
 
-        @param str The string to test.
-        @param kForMath Whether or not to include the extra symbol(s): '-', '.', 
+        @param[in] str The string to test.
+        @param[in] kForMath Whether or not to include the extra symbol(s): '-', '.', 
         it will also only accept one case of '.' if kForMath is true. kForMath is 
         set to false by default.
-        @return Whether or not there are only digits in str.
+        @param[out] are_there_only_digits Whether or not there are only digits in str.
      */
     inline bool OnlyDigits(const std::string str, const bool kForMath = false) {
         
@@ -148,9 +148,9 @@ namespace helper {
         Returns a boolean value indicating whether or not a given string is in a 
         vector.
 
-        @param str The string to search for.
-        @param vector The vector to search through.
-        @return Whether or not str was found in vector.
+        @param[in] str The string to search for.
+        @param[in] vector The vector to search through.
+        @param[out] is_string_in_vector Whether or not str was found in vector.
      */
     inline bool IsStringInVector(std::string str, std::vector<std::string> vector) {
         bool flag = true;
@@ -167,8 +167,8 @@ namespace helper {
     /**
         Returns the amount of digits in an unsigned integer.
 
-        @param number The unsigned number to count the digits of.
-        @return The amount of digits in the number.
+        @param[in] number The unsigned number to count the digits of.
+        @param[out] count The amount of digits in the number.
     */
     inline size_t CountDigits(unsigned int number) {
         size_t count = 0;

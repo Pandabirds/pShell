@@ -21,7 +21,7 @@ namespace small_functions {
     /** 
         Outputs the current time.
 
-        @param kLayers The number of layers to output with.
+        @param[in] kLayers The number of layers to output with.
     */
     inline void time_command(const int kLayers) {
         time_t raw_time;

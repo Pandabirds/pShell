@@ -17,10 +17,10 @@
                 @fn void UpdateTriangle(void)
                 @brief Updates the triangle's angles and sides using trigonometry.
     
-    @fn int TriCommandCycle(const int kLayers, Triangle& triangle)
+    @fn inline int TriCommandCycle(const int kLayers, Triangle& triangle)
     @brief The function called each time man() wants a command.
     
-    @fn int main(const int kLayers)
+    @fn inline int main(const int kLayers)
     @brief The function that starts running the triangle calculator.
 */
 
@@ -48,7 +48,7 @@ namespace tri {
 
             /**
              * Checks if the triangle is right.
-             * @return Whether or not it is right.
+             * @param[out] is_triangle_right Whether or not it is right.
              */
             bool IsRight(void) {
                 return angle1_ == 90 || angle2_ == 90 || angle3_ == 90;
@@ -89,9 +89,9 @@ namespace tri {
     /**
      * The function called each time main() wants a command.
      * 
-     * @param kLayers The amount of layers to print out.
-     * @param triangle The triangle to be used.
-     * @return The return value.
+     * @param[in] kLayers The amount of layers to print out.
+     * @param[in] triangle The triangle to be used.
+     * @param[out] exit_code The exit code.
      */
     inline int TriCommandCycle(const int kLayers, Triangle& triangle) {
         return 0;
@@ -100,7 +100,7 @@ namespace tri {
     /**
      * The function that starts running the triangle calculator.
      * 
-     * @return The exit code.
+     * @param[out] exit_code The exit code.
      */
     inline int main(const int kLayers) {
         std::cout << "-TRI-" << '\n';

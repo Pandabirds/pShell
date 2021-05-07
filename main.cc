@@ -29,8 +29,8 @@ double CalcNumber = 0;
 /**
     The function called each time the shell asks for a main-command.
     
-    @param kLayers The kLayers constant from main().
-    @return The exit code.
+    @param[in] kLayers The kLayers constant from main().
+    @param[out] exit_code The exit code.
  */
 int CommandCycle(const int kLayers) {
     std::string user_input;

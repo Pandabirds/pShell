@@ -5,13 +5,13 @@
     @namespace calc
     @brief The set of functions used by the calculator to function.
         
-        @fn int ProcessCommands(const std::vector<std::string> cmds)
+        @fn inline int ProcessCommands(const std::vector<std::string> cmds)
         @brief The function that processes user commands.
 
-        @fn CalcCycle
+        @fn inline int CalcCycle(const int kLayers)
         @brief The function called each time the calculator asks for a command.
 
-        @fn main
+        @fn inline int main(const int kLayers)
         @brief The function that starts running the calculator.
  */
 
@@ -32,8 +32,8 @@ namespace calc {
     /**
         The function used to process commands from the user.
 
-        @param cmds A vector of the commands.
-        @return The exit code of the function.
+        @param[in] cmds A vector of the commands.
+        @param[out] exit_Code The exit code of the function.
      */
     inline int ProcessCommands(const std::vector<std::string> cmds) {
         if (cmds[0] == "quit") {
@@ -103,8 +103,8 @@ namespace calc {
     /**
         The function called each time the calculator asks for a command.
 
-        @param kLayers The amount of layers to print out.
-        @return The return value.
+        @param[in] kLayers The amount of layers to print out.
+        @param[out] exit_code The exit code.
      */
     inline int CalcCycle(const int kLayers) {
         std::string user_input;
@@ -127,7 +127,7 @@ namespace calc {
     /**
         The function that starts running the calculator.
 
-        @return The exit code for the calculator.
+        @param[out] exit_Code The exit code for the calculator.
      */
     inline int main(const int kLayers) {
 

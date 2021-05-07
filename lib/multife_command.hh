@@ -14,17 +14,17 @@
         @fn inline int DeleteItem(const std::string kPath, const int kLayers, const std::vector<std::string> kCmds)
         @brief Deletes an item with user confirmation, for multife commands.
 
-        @fn std::fstream& GotoLine(std::fstream& file, unsigned int num)
+        @fn inline std::fstream& GotoLine(std::fstream& file, unsigned int num)
         @brief Sets a file's current line.
 
-        @fn bool IsFile(const std::string kPath)
+        @fn inline bool IsFile(const std::string kPath)
         @brief Returns a boolean value indicating whether or not the given path leads
         to a file.
 
         @fn inline int VectorToFile(const std::string kPath, const std::vector<std::string> kLineHolder)
         @brief Outputs all the strings in a vector into a file.
 
-        @fn std::vector<std::string> FileToVector(std::string path)
+        @fn inline std::vector<std::string> FileToVector(std::string path)
         @brief Returns a vector holding the lines of a file as strings.
 
         @fn inline size_t CountLines(const std::string kPath)
@@ -36,13 +36,19 @@
         @fn inline int PrintFile(const std::string kPath, const int kLayers, const bool kAddLineNumbers = true)
         @brief Prints the lines of a file.
 
-        @fn std::string GetCurrentWorkingDirectory()
+        @fn inline std::string GetCurrentWorkingDirectory()
         @brief Returns the cwd without using c-strings and getcwd().
+
+        @fn inline int CreateDirectory(const std::string kName)
+        @brief Create a directory in the cwd.
+
+        @fn inline int CreateFile(const std::string kName)
+        @brief Create a file in the cwd.
 
         @fn inline void DuCommand(const std::string kPath, const int kLayers)
         @brief The du command in multife.
 
-        @fn int ListCurrentWorkingDirectory(const int kLayers)
+        @fn inline int ListCurrentWorkingDirectory(const int kLayers)
         @brief Prints out the contents of the current working directory.
 
         @fn inline int WriteFileLine(const std::string kPath, const unsigned int kLineNumber, const std::string kContent)
@@ -51,19 +57,15 @@
         @fn inline int TypeWrite(const std::string kPath, const int kLayers)
         @brief The multife typewriter command.
 
-        @fn int ProcessCommands(std::vector<std::string> cmds, const int kLayers)
+        @fn inline int ProcessCommands(std::vector<std::string> cmds, const int kLayers)
         @brief The function that processes user commands.
 
-        @fn int MultifeCommandCycle (const int kLayers)
+        @fn inline int MultifeCommandCycle (const int kLayers)
         @brief The function called each time the calculator asks for a command.
 
-        @fn std::fstream& GotoLine(std::fstream& file, unsigned int num)
+        @fn inline std::fstream& GotoLine(std::fstream& file, unsigned int num)
         @brief Sets a file's current line.
     */
-
-//TODO: 21/5/0X
-//TODO: add creating files
-//TODO: add creating directories
 
 #ifndef PSHELL_LIB_MULTIFE_COMMAND_HH_
 #define PSHELL_LIB_MULTIFE_COMMAND_HH_
@@ -87,8 +89,8 @@ namespace multife {
         Function for testing if a file exists or not. It uses the C file handling
         for the conditional.
 
-        @param kPath the path of the file.
-        @return Whether or not the file exists.
+        @param[in] kPath the path of the file.
+        @param[out] does_file_exist Whether or not the file exists.
     */
     inline bool FileExists(const std::string kPath) {
         FILE* target_file;
@@ -103,8 +105,8 @@ namespace multife {
     /**
         Function used by the user to go up a certain amount of directories.
 
-        @param kRepeats The amount of times to go up a directory.
-        @return The exit code.
+        @param[in] kRepeats The amount of times to go up a directory.
+        @param[out] exit_code The exit code.
     */
     inline int BackDirectory(const unsigned int kRepeats) {
         
@@ -119,9 +121,9 @@ namespace multife {
         Sets a file's current line.
         https://stackoverflow.com/questions/5207550/in-c-is-there-a-way-to-go-to-a-specific-line-in-a-text-file
         
-        @param file The variable containing the file handler.
-        @param num The line number (Starts from 0)
-        @return A reference to the file.
+        @param[in] file The variable containing the file handler.
+        @param[in] num The line number (Starts from 0)
+        @param[out] file A reference to the file.
      */
     inline std::fstream& GotoLine(std::fstream& file, unsigned int num) {
         file.seekg(std::ios::beg);
@@ -134,8 +136,8 @@ namespace multife {
     /**
         Returns a boolean value indicating whether or not the given path leads to a file.
 
-        @param kPath The path of the file as a string.
-        @return Whether or not the path leads to a file.
+        @param[in] kPath The path of the file as a string.
+        @param[out] is_file Whether or not the path leads to a file.
      */
     inline bool IsFile(const std::string kPath) {
         // https://stackoverflow.com/questions/146924/how-can-i-tell-if-a-given-path-is-a-directory-or-a-file-c-c#146938
@@ -152,9 +154,9 @@ namespace multife {
     /**
         Deletes an item with user confirmation, for multife commands.
 
-        @param kPath The path of the file to delete.
-        @param kLayers The amount of layers to print at.
-        @param kCmds The user commands, incase the user wants to automatically bypass the confirmation.
+        @param[in] kPath The path of the file to delete.
+        @param[in] kLayers The amount of layers to print at.
+        @param[in] kCmds The user commands, incase the user wants to automatically bypass the confirmation.
     */
     inline int DeleteItem(const std::string kPath, const int kLayers, const std::vector<std::string> kCmds) {
         if (kCmds.size() > 2) {
@@ -181,9 +183,9 @@ namespace multife {
     /**
         Outputs all the strings in a vector into a file.
 
-        @param kPath The path to the file.
-        @param kLineHolder A vector of std::string holding all the lines to be added.
-        @return The exit code.
+        @param[in] kPath The path to the file.
+        @param[in] kLineHolder A vector of std::string holding all the lines to be added.
+        @param[out] exit_code The exit code.
      */
     inline int VectorToFile(const std::string kPath, const std::vector<std::string> kLineHolder) {
         
@@ -205,8 +207,8 @@ namespace multife {
     /**
         Returns a vector holding the lines of a file as strings.
 
-        @param kPath The path to the file.
-        @return A vector holding the lines of the file as strings.
+        @param[in] kPath The path to the file.
+        @param[out] line_holder A vector holding the lines of the file as strings.
      */
     inline std::vector<std::string> FileToVector(const std::string kPath) {
         std::vector<std::string> line_holder;
@@ -230,8 +232,8 @@ namespace multife {
     /**
         Returns the amount of lines in a file.
 
-        @param kPath The path to the file.
-        @return The amount of lines in the file.
+        @param[in] kPath The path to the file.
+        @param[out] count The amount of lines in the file.
      */
     inline size_t CountLines(const std::string kPath) {
         return FileToVector(kPath).size();
@@ -240,9 +242,9 @@ namespace multife {
     /**
         Aligns an index number to fit with a highest index, and returns it as a string.
 
-        @param kIndex The index number to align.
-        @param kHighestIndex The highest index, or the length the string should be.
-        @return The aligned index number as a string.
+        @param[in] kIndex The index number to align.
+        @param[in] kHighestIndex The highest index, or the length the string should be.
+        @param[out] output_string The aligned index number as a string.
     */
     inline std::string AlignIndex(const int kIndex, const int kHighestIndex) {
         std::string aligned = std::to_string(kIndex);
@@ -259,11 +261,11 @@ namespace multife {
     /**
         Prints the lines of a file.
 
-        @param kPath The path to the file.
-        @param kLayers The amount of layers it is printing at. Use 0 for normal
+        @param[in] kPath The path to the file.
+        @param[in] kLayers The amount of layers it is printing at. Use 0 for normal
         printing.
-        @param kAddLineNumbers Boolean whether or not to add line numbers, default is true.
-        @return The exit code.
+        @param[in] kAddLineNumbers Boolean whether or not to add line numbers, default is true.
+        @param[out] exit_code The exit code.
      */
     inline int PrintFile(const std::string kPath, const int kLayers, const bool kAddLineNumbers = true) {
         std::vector<std::string> line_holder = FileToVector(kPath);
@@ -283,7 +285,7 @@ namespace multife {
     /**
         Returns the current working directory without using c-strings and getcwd().
 
-        @return The current working directory.
+        @param[out] cwd The current working directory.
      */
     inline std::string GetCurrentWorkingDirectory(void) {
         const unsigned int kMax = 1024;
@@ -293,10 +295,43 @@ namespace multife {
     }
 
     /**
+        Create a directory in the cwd.
+
+        @param[in] kName The name of the directory to create.
+        @param[out] exit_code The exit code.
+    */
+    inline int CreateDirectory(const std::string kName) {
+        if (mkdir(kName.c_str(), 0777) == -1) {
+            return 1;
+        };
+        
+        return 0;
+    }
+
+    /**
+        Creates a file in the cwd.
+
+        @param[in] kName The name of the file to create.
+        @param[out] exit_code The exit code.
+    */
+    inline int CreateFile(const std::string kName) {
+        std::ofstream target_file;
+        target_file.open(kName, std::ios::out);
+
+        if (!target_file) {
+            return 1;
+        }
+
+        target_file.close();
+        
+        return 0;
+    }
+
+    /**
         The du command in multife.
 
-        @param kPath The path of the directory to use.
-        @param kLayers The amount of layers to print out with.
+        @param[in] kPath The path of the directory to use.
+        @param[in] kLayers The amount of layers to print out with.
     */
     inline void DuCommand(const std::string kPath, const int kLayers) {
         
@@ -316,8 +351,8 @@ namespace multife {
     /**
         Prints out the contents of the current working directory.
 
-        @param kLayers The amount of layers it is printing at. Use 0 for normal printing.
-        @return The exit code.
+        @param[in] kLayers The amount of layers it is printing at. Use 0 for normal printing.
+        @param[out] exit_code The exit code.
      */
     inline int ListCurrentWorkingDirectory(const int kLayers) {
         struct dirent* entry;
@@ -347,10 +382,10 @@ namespace multife {
     /**
         Overwrites a single line in a file.
 
-        @param kPath The path of the file to change a line in.
-        @param kLineNumber The line number.
-        @param kContent What to change the line to.
-        @return The exit code.
+        @param[in] kPath The path of the file to change a line in.
+        @param[in] kLineNumber The line number.
+        @param[in] kContent What to change the line to.
+        @param[out] exit_code The exit code.
      */
     inline int WriteFileLine(const std::string kPath, const unsigned int kLineNumber, const std::string kContent) {
         std::vector<std::string> lines_to_write = FileToVector(kPath);
@@ -372,9 +407,9 @@ namespace multife {
     /**
         The multife typewriter command.
 
-        @param kPath The path of the file to edit.
-        @param kLayers The amount of layers to print with.
-        @return The exit code.
+        @param[in] kPath The path of the file to edit.
+        @param[in] kLayers The amount of layers to print with.
+        @param[out] exit_code The exit code.
     */
     inline int TypeWrite(const std::string kPath, const int kLayers) {
 
@@ -414,9 +449,9 @@ namespace multife {
     /**
         The function that processes user commands.
 
-        @param cmds A vector of strings containing the commands to process.
-        @param kLayers The amount of layers to print at.
-        @return The exit code.
+        @param[in] cmds A vector of strings containing the commands to process.
+        @param[in] kLayers The amount of layers to print at.
+        @param[out] exit_code The exit code.
      */
     inline int ProcessCommands(std::vector<std::string> cmds, const int kLayers) {
         if (cmds[0] == "quit") {
@@ -466,6 +501,14 @@ namespace multife {
             if (cmds[0] == "back") {
                 BackDirectory(stoi(cmds[1]));
             }
+
+            if (cmds[0] == "newfile") {
+                CreateFile(cmds[1]);
+            }
+
+            if (cmds[0] == "newdir") {
+                CreateDirectory(cmds[1]);
+            }
         }
 
         if (cmds[0] == "ls" || cmds[0] == "dir") {
@@ -482,8 +525,8 @@ namespace multife {
     /**
         The function called each time the calculator asks for a command.
 
-        @param kLayers The amount of layers to print at.
-        @return The exit code.
+        @param[in] kLayers The amount of layers to print at.
+        @param[out] exit_code The exit code.
      */
     inline int MultifeCommandCycle (const int kLayers) {
         std::string user_input;
