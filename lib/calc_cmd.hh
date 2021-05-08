@@ -7,6 +7,7 @@
 #define PSHELL_LIB_CALC_CMD_HH_
 
 #include "helper_functions.hh"
+#include "help_cmd.hh"
 
 #include <math.h>
 
@@ -21,70 +22,86 @@ namespace calc {
         @fn inline int ProcessCommands(const std::vector<std::string> cmds)
         The function used to process commands from the user.
 
-        @param[in] cmds A vector of the commands.
+        @param[in] kCmds A vector of the commands.
         @param[out] exit_Code The exit code of the function.
     */
-    inline int ProcessCommands(const std::vector<std::string> cmds) {
-        if (cmds[0] == "quit") {
+    inline int ProcessCommands(const int kLayers, const std::vector<std::string> kCmds) {
+        if (kCmds[0] == "quit") {
             exit(0);
         }
 
-        if (cmds[0] == "exit") {
+        if (kCmds[0] == "exit") {
             return 1;
         }
 
-        if (cmds[0] == "add" && cmds.size() >= 1)
-            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "")
-                CalcNumber += stod(cmds[1]);
+        if (kCmds.size() >= 2) {
+            if (kCmds[0] == "add" && helper::OnlyDigits(kCmds[1], true) && kCmds[1] != "") {
+                CalcNumber += stod(kCmds[1]);
+            }
 
-        if (cmds[0] == "sub" && cmds.size() >= 1)
-            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "")
-                CalcNumber -= stod(cmds[1]);
+            if (kCmds[0] == "sub" && helper::OnlyDigits(kCmds[1], true) && kCmds[1] != "") {
+                CalcNumber -= stod(kCmds[1]);
+            }
 
-        if (cmds[0] == "mul" && cmds.size() >= 1)
-            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "")
-                CalcNumber *= stod(cmds[1]);
+            if (kCmds[0] == "mul" && helper::OnlyDigits(kCmds[1], true) && kCmds[1] != "") {
+                CalcNumber *= stod(kCmds[1]);
+            }
 
-        if (cmds[0] == "div" && cmds.size() >= 1)
-            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "" && cmds[1] != "0")
-                CalcNumber /= stod(cmds[1]);
+            if (kCmds[0] == "div" && helper::OnlyDigits(kCmds[1], true) && kCmds[1] != "" && kCmds[1] != "0") {
+                CalcNumber /= stod(kCmds[1]);
+            }
 
-        if (cmds[0] == "pow" && cmds.size() >= 1)
-            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "")
-                CalcNumber = pow(CalcNumber, stod(cmds[1]));
+            if (kCmds[0] == "pow" && helper::OnlyDigits(kCmds[1], true) && kCmds[1] != "") {
+                CalcNumber = pow(CalcNumber, stod(kCmds[1]));
+            }
 
-        if (cmds[0] == "rot" && cmds.size() >= 1)
-            if (helper::OnlyDigits(cmds[1], true) && cmds[1] != "")
-                CalcNumber = pow(CalcNumber, 1.0 / stod(cmds[1]));
-
-        if (cmds[0] == "sqrt")
-            CalcNumber = sqrt(CalcNumber);
-
-        if (cmds[0] == "trunc")
-            CalcNumber = trunc(CalcNumber);
-
-        if (cmds[0] == "sin")
-            CalcNumber = sin(CalcNumber);
-
-        if (cmds[0] == "cos")
-            CalcNumber = cos(CalcNumber);
-
-        if (cmds[0] == "tan")
-            CalcNumber = tan(CalcNumber);
-
-        if (CalcNumber != 0) {
-            if (cmds[0] == "log")
-                CalcNumber = log(CalcNumber);
-
-            if (cmds[0] == "log2")
-                CalcNumber = log2(CalcNumber);
-
-            if (cmds[0] == "log10")
-                CalcNumber = log10(CalcNumber);
+            if (kCmds[0] == "rot" && helper::OnlyDigits(kCmds[1], true) && kCmds[1] != "") {
+                CalcNumber = pow(CalcNumber, 1.0 / stod(kCmds[1]));
+            }
         }
 
-        if (helper::OnlyDigits(cmds[0], true))
-            CalcNumber = stod(cmds[0]);
+        if (kCmds[0] == "sqrt") {
+            CalcNumber = sqrt(CalcNumber);
+        }
+
+        if (kCmds[0] == "trunc") {
+            CalcNumber = trunc(CalcNumber);
+        }
+
+        if (kCmds[0] == "sin") {
+            CalcNumber = sin(CalcNumber);
+        }
+
+        if (kCmds[0] == "cos") {
+            CalcNumber = cos(CalcNumber);
+        }
+
+        if (kCmds[0] == "tan") {
+            CalcNumber = tan(CalcNumber);
+        }
+
+        if (CalcNumber != 0) {
+            if (kCmds[0] == "log") {
+                CalcNumber = log(CalcNumber);
+            }
+
+            if (kCmds[0] == "log2") {
+                CalcNumber = log2(CalcNumber);
+            }
+
+            if (kCmds[0] == "log10") {
+                CalcNumber = log10(CalcNumber);
+            }
+        }
+
+        if (kCmds[0] == "help") {
+            help::main(kLayers + 1, std::vector<std::string> ({"help", "calc"}));
+        }
+
+
+        if (helper::OnlyDigits(kCmds[0], true)) {
+            CalcNumber = stod(kCmds[0]);
+        }
 
         return 0;
     }
@@ -108,7 +125,7 @@ namespace calc {
         helper::ConvertToLower(cmds[0]);
 
         // Processing user commands.
-        if (ProcessCommands(cmds))
+        if (ProcessCommands(kLayers + 1, cmds))
             return 1;
         
         return 0;
@@ -121,12 +138,13 @@ namespace calc {
         @param[out] exit_Code The exit code for the calculator.
     */
     inline int main(const int kLayers) {
+        std::cout << helper::AutoIndent(kLayers - 1 ? kLayers != 0 : kLayers) << "-CALC-" << '\n';
 
         while (true) {
             if (CalcCycle(kLayers) == 1) break;
         }
 
-        std::cout << "-CALC-" << '\n';
+        std::cout << helper::AutoIndent(kLayers - 1 ? kLayers != 0 : kLayers) << "-CALC-" << '\n';
         return 0;
     }
 }

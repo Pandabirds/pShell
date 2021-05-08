@@ -5,7 +5,6 @@
 
 #include "lib/helper_functions.hh"
 #include "lib/calc_cmd.hh"
-#include "lib/tri_cmd.hh"
 #include "lib/help_cmd.hh"
 #include "lib/multife_command.hh"
 #include "lib/small_commands.hh"
@@ -42,9 +41,6 @@ int CommandCycle(const int kLayers) {
 
     if (cmds[0] == "calc")
         calc::main(kLayers + 1);
-    
-    if (cmds[0] == "tri")
-        tri::main(kLayers + 1);
     
     if (cmds[0] == "help")
         help::main(kLayers + 1, cmds);

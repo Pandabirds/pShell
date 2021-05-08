@@ -7,6 +7,7 @@
 #define PSHELL_LIB_MULTIFE_COMMAND_HH_
 
 #include "helper_functions.hh"
+#include "help_cmd.hh"
 
 #include <dirent.h>
 #include <unistd.h>
@@ -50,7 +51,7 @@ namespace multife {
     */
     inline int BackDirectory(const unsigned int kRepeats) {
         
-        for (size_t i = 0; i < kRepeats; i++) {
+        for (size_t i = 0; i < kRepeats; ++i) {
             chdir("..");
         }
 
@@ -198,7 +199,7 @@ namespace multife {
         const size_t kHighestIndexDigits = helper::CountDigits(kHighestIndex);
         const size_t kIndexDigits = helper::CountDigits(kIndex);
 
-        for (size_t i = 0; i < kHighestIndexDigits - kIndexDigits; i++) {
+        for (size_t i = 0; i < kHighestIndexDigits - kIndexDigits; ++i) {
             aligned += " ";
         }
         
@@ -402,77 +403,81 @@ namespace multife {
     }
 
     /**
-        @fn inline int ProcessCommands(std::vector<std::string> cmds, const int kLayers)
+        @fn inline int ProcessCommands(std::vector<std::string> kCmds, const int kLayers)
         The function that processes user commands.
 
-        @param[in] cmds A vector of strings containing the commands to process.
+        @param[in] kCmds A vector of strings containing the commands to process.
         @param[in] kLayers The amount of layers to print at.
         @param[out] exit_code The exit code.
     */
-    inline int ProcessCommands(std::vector<std::string> cmds, const int kLayers) {
-        if (cmds[0] == "quit") {
+    inline int ProcessCommands(const std::vector<std::string> kCmds, const int kLayers) {
+        if (kCmds[0] == "quit") {
             exit(0);
         }
 
-        if (cmds[0] == "exit") {
+        if (kCmds[0] == "exit") {
             return 1;
         }
 
         // I'm doing length-checks like this so it looks nicer when I add more
         // commands.
-        if (cmds.size() > 1) {
+        if (kCmds.size() > 1) {
 
-            if (cmds.size() > 2) {
-                if (cmds.size() > 3) {
-                    if (cmds[0] == "writel" && helper::OnlyDigits(cmds[2])) {
-                        WriteFileLine(cmds[1], stoi(cmds[2]), cmds[3]);
+            if (kCmds.size() > 2) {
+                if (kCmds.size() > 3) {
+                    if (kCmds[0] == "writel" && helper::OnlyDigits(kCmds[2])) {
+                        WriteFileLine(kCmds[1], stoi(kCmds[2]), kCmds[3]);
                     }
                 }
 
-                if (cmds[0] == "rename") {
-                    std::rename((GetCurrentWorkingDirectory()  + "/" + cmds[1]).c_str(), (GetCurrentWorkingDirectory() + "/" + cmds[2]).c_str());
+                if (kCmds[0] == "rename") {
+                    std::rename((GetCurrentWorkingDirectory()  + "/" + kCmds[1]).c_str(), (GetCurrentWorkingDirectory() + "/" + kCmds[2]).c_str());
                 }
 
-                if (cmds[0] == "move") {
-                    std::rename((GetCurrentWorkingDirectory() + "/" + cmds[1]).c_str(), (cmds[2] + "/" + cmds[1]).c_str());
+                if (kCmds[0] == "move") {
+                    std::rename((GetCurrentWorkingDirectory() + "/" + kCmds[1]).c_str(), (kCmds[2] + "/" + kCmds[1]).c_str());
                 }
             }
 
-            if (cmds[0] == "cd") {
-                chdir(cmds[1].c_str());
+            if (kCmds[0] == "cd") {
+                chdir(kCmds[1].c_str());
             }
 
-            if (cmds[0] == "read") {
-                PrintFile(cmds[1], kLayers + 1);
+            if (kCmds[0] == "read") {
+                PrintFile(kCmds[1], kLayers + 1);
             }
 
-            if (cmds[0] == "typewrite") {
-                TypeWrite(cmds[1], kLayers + 1);
+            if (kCmds[0] == "typewrite") {
+                TypeWrite(kCmds[1], kLayers + 1);
             }
 
-            if (cmds[0] == "del" || cmds[0] == "delete") {
-                DeleteItem(cmds[1], kLayers + 1, cmds);
+            if (kCmds[0] == "del" || kCmds[0] == "delete") {
+                DeleteItem(kCmds[1], kLayers + 1, kCmds);
             }
 
-            if (cmds[0] == "back") {
-                BackDirectory(stoi(cmds[1]));
+            if (kCmds[0] == "back") {
+                BackDirectory(stoi(kCmds[1]));
             }
 
-            if (cmds[0] == "newfile") {
-                CreateFile(cmds[1]);
+            if (kCmds[0] == "newfile") {
+                CreateFile(kCmds[1]);
             }
 
-            if (cmds[0] == "newdir") {
-                CreateDirectory(cmds[1]);
+            if (kCmds[0] == "newdir") {
+                CreateDirectory(kCmds[1]);
             }
         }
 
-        if (cmds[0] == "ls" || cmds[0] == "dir") {
+        if (kCmds[0] == "ls" || kCmds[0] == "dir") {
             ListCurrentWorkingDirectory(kLayers + 1);
         }
 
-        if (cmds[0] == "du" || cmds[0] == "disk") {
+        if (kCmds[0] == "du" || kCmds[0] == "disk") {
             DuCommand(GetCurrentWorkingDirectory(), kLayers + 1);
+        }
+
+        if (kCmds[0] == "help") {
+            help::main(kLayers + 1, std::vector<std::string> ({"help", "multife"}));
         }
 
         return 0;
@@ -509,12 +514,12 @@ namespace multife {
         @param[out] exit_code The exit code.
     */
     inline int main(const int kLayers) {
-        std::cout << "-MULTIFE-" << '\n';
+        std::cout << helper::AutoIndent(kLayers - 1 ? kLayers != 0 : kLayers) << "-MULTIFE-" << '\n';
         while (true) {
             if (MultifeCommandCycle(kLayers) == 1)
                 break;
         }
-        std::cout << "-MULTIFE-" << '\n';
+        std::cout << helper::AutoIndent(kLayers - 1 ? kLayers != 0 : kLayers) << "-MULTIFE-" << '\n';
         return 0;
     }
 }

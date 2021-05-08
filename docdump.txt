@@ -156,10 +156,10 @@
         @param[out] exit_code The exit code.
     */
     /**
-        @fn inline int ProcessCommands(std::vector<std::string> cmds, const int kLayers)
+        @fn inline int ProcessCommands(const std::vector<std::string> kCmds, const int kLayers)
         The function that processes user commands.
 
-        @param[in] cmds A vector of strings containing the commands to process.
+        @param[in] kCmds A vector of strings containing the commands to process.
         @param[in] kLayers The amount of layers to print at.
         @param[out] exit_code The exit code.
     */
@@ -183,35 +183,11 @@
     The header file that contains the help command for pShell.
 */
     /**
-        @fn inline int main(const int kLayers, std::vector<std::string> cmds)
+        @fn inline int main(const int kLayers, const std::vector<std::string> kCmds)
         The main function for the help command.
 
         @param[in] kLayers The amount of layers to print at.
-        @param[in] cmds A vector holding the user-commands.
-        @param[out] exit_code The exit code.
-    */
-
-/**
-    @file tri_cmd.hh
-    The header file that contains the triangle calculator for pShell.
-*/
-    /**
-        @class Triangle
-        The Triangle class to be used by the tri command.
-    */
-    /**
-        @fn inline int TriCommandCycle(const int kLayers, Triangle& triangle)
-        The function called each time main() wants a command.
-
-        @param[in] kLayers The amount of layers to print out.
-        @param[in] triangle The triangle to be used.
-        @param[out] exit_code The exit code.
-    */
-    /**
-        @fn inline int main(const int kLayers)
-        The function that starts running the triangle calculator.
-
-        @param[in] kLayers The amount of layers to print at.
+        @param[in] kCmds A vector holding the user-commands.
         @param[out] exit_code The exit code.
     */
 
@@ -281,10 +257,10 @@
     The header file that contains the calculator for pShell.
 */
     /**
-        @fn inline int ProcessCommands(const std::vector<std::string> cmds)
+        @fn inline int ProcessCommands(const std::vector<std::string> kCmds)
         The function used to process commands from the user.
 
-        @param[in] cmds A vector of the commands.
+        @param[in] kCmds A vector of the commands.
         @param[out] exit_Code The exit code of the function.
     */
     /**

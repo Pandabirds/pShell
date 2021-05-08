@@ -155,7 +155,7 @@ namespace helper {
     inline size_t CountDigits(unsigned int number) {
         size_t count = 0;
         while (number /= 10) {
-            count++;
+            ++count;
         }
         return count;
     } 
