@@ -56,11 +56,12 @@ namespace help {
             std::cout << '\n';
             std::cout << helper::AutoIndent(kLayers) << "Here's a list of the main commands you can do:" << '\n';
             std::cout << helper::AutoIndent(kLayers + 1) << "calc : Starts the calculator." << '\n';
+            std::cout << helper::AutoIndent(kLayers + 1) << "cmd; [command] : Executes a command in the operating system's terminal." << '\n';
+            std::cout << helper::AutoIndent(kLayers + 1) << "echo; [message] : Prints [message] to the console." << '\n';
             std::cout << helper::AutoIndent(kLayers + 1) << "exit : Quits pShell." << '\n';
             std::cout << helper::AutoIndent(kLayers + 1) << "multife : Starts the multi-purpose file explorer." << '\n';
             std::cout << helper::AutoIndent(kLayers + 1) << "help : Shows help." << '\n';
             std::cout << helper::AutoIndent(kLayers + 1) << "quit : Quits pShell." << '\n';
-            std::cout << helper::AutoIndent(kLayers + 1) << "tri : Starts the triangle calculator." << '\n';
         }
 
         std::cout << helper::AutoIndent(kLayers - 1 ? kLayers != 0 : kLayers) << "-HELP-" << '\n';

@@ -156,6 +156,13 @@
         @param[out] exit_code The exit code.
     */
     /**
+        @file inlien int ExecuteFile(const std::string kPath)
+        Tests if a file is executable, if it is, executes it using system().
+
+        @param[in] kPath The path to the file to execute.
+        @param[out] exit_code The exit code.
+    */
+    /**
         @fn inline int ProcessCommands(const std::vector<std::string> kCmds, const int kLayers)
         The function that processes user commands.
 

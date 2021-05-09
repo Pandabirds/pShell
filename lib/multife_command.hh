@@ -403,6 +403,20 @@ namespace multife {
     }
 
     /**
+        @file inlien int ExecuteFile(const std::string kPath)
+        Tests if a file is executable, if it is, executes it using system().
+
+        @param[in] kPath The path to the file to execute.
+        @param[out] exit_code The exit code.
+    */
+    inline int ExecuteFile(const std::string kPath) {
+        if (!access(kPath.c_str(), X_OK) && IsFile(kPath)) {
+            system(("./" + kPath).c_str());
+        }
+        return 0;
+    }
+
+    /**
         @fn inline int ProcessCommands(std::vector<std::string> kCmds, const int kLayers)
         The function that processes user commands.
 
@@ -465,6 +479,10 @@ namespace multife {
 
             if (kCmds[0] == "newdir") {
                 CreateDirectory(kCmds[1]);
+            }
+
+            if (kCmds[0] == "exec" || kCmds[0] == "execute") {
+                ExecuteFile(kCmds[1]);
             }
         }
 

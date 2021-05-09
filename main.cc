@@ -13,6 +13,10 @@
 #include <vector>
 #include <string>
 
+//TODO: Add global commmand history(???)
+//TODO: Allow users to execute files
+
+
 // Defining superglobal variables.
 
 // Number that stores the last number used in Calculator.
@@ -48,12 +52,18 @@ int CommandCycle(const int kLayers) {
     if (cmds[0] == "multife" || cmds[0] == "os")
         multife::main(kLayers + 1);
 
-    if (cmds[0] == "echo" && cmds.size() > 1) {
-        std::cout << cmds[1] << '\n';
-    }
-
     if (cmds[0] == "time" || cmds[0] == "date") {
         small_functions::time_command(kLayers + 1);
+    }
+
+    if (cmds.size() > 1) {
+        if (cmds[0] == "echo" && cmds.size() > 1) {
+            std::cout << cmds[1] << '\n';
+        }
+
+        if (cmds[0] == "cmd") {
+            system(cmds[1].c_str());
+        }
     }
 
     return 0;
