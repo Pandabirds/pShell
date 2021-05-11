@@ -39,7 +39,7 @@ namespace helper {
             output_vector.push_back(token);
 
             // Shortens the string to continue.
-            str.erase(0, position + kDelimiter.length());
+            str.erase(0, position + kDelimiter.size());
         }
         // Pushes the last token to the vector. This doesn't happen 
         // automatically because we assume there is no case of the delimiter at 
@@ -59,7 +59,7 @@ namespace helper {
     inline int ConvertToLower(std::string& str) {
         for (auto &character : str)
             character = std::tolower(character);
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -158,7 +158,25 @@ namespace helper {
             ++count;
         }
         return count;
-    } 
+    }
+    
+    /**
+        @fn inline std::string MultiplyString(const std::string str, const int num)
+        Returns a given string added to itself (num - 1) times.
+
+        @param[in] str The string to start with.
+        @param[in] num The amount of times to multiply the string.
+        @param[out] output_string str added to itself (num - 1) times. 
+    */
+    inline std::string MultiplyString(const std::string str, const int num) {
+        std::string output_string;
+        
+        for (int i = 0; i < num; ++i) {
+            output_string += str;
+        }
+
+        return output_string;
+    }
 }
 
 #endif

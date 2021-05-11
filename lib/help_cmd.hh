@@ -24,6 +24,37 @@ namespace help {
         std::cout << helper::AutoIndent(kLayers - 1 ? kLayers != 0 : kLayers) << "-HELP-" << '\n';
 
         if (kCmds.size() >= 2) {
+            if (kCmds[1] == "syntax") {
+                std::cout << helper::AutoIndent(kLayers) << "The basic syntax for commands is: \"command; option; option; option\"" << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "When you add too little options, the command simply won't start." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "However, if you add too many, it will work, but only use the first n options, where n is the amount of options the command is built to use." << '\n';
+            }
+
+            if (kCmds[1] == "calc") {
+                std::cout << helper::AutoIndent(kLayers) << "calc : The pShell basic calculator." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "It works by having a \"current number\", which is displays after each command." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "You use commands to edit the current number." << '\n';
+                std::cout << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "add; [n] : Adds [n] to the current number." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "cos : Sets the current number to the cos of itself." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "div; [n] : Divides the current number by [n]." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "exit : Exits the Calculator." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "help : Shows this menu." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "log : Sets the current number to the log of itself." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "log2 : Sets the current number to the log2 of itself." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "log10 : Sets the current number to the log10 of itself." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "mul; [n] : Multiplies the current number by [n]." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "pow; [n] : Exponentiates the current number by [n]." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "quit : Exits pShell." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "rot; [n] : Sets the current number to the [n]th root of the current number.." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "sin : Sets the current number to the sin of itself." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "sub; [n] : Subtracts [n] from the current number." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "sqrt : Sets the current number to the square root of the current number." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "tan : Sets the current number to the tan of itself." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "trunc : Truncates a decimal by removing everything after \".\"." << '\n';
+                std::cout << helper::AutoIndent(kLayers) << "[n] : Sets the current number to [n]." << '\n';
+            }
+
             if (kCmds[1] == "multife" || kCmds[1] == "os") {
                 std::cout << helper::AutoIndent(kLayers) << "multife : The multi-purpose file explorer" << '\n';
                 std::cout << helper::AutoIndent(kLayers) << "The multife command is primarily a file explorer," << '\n';
@@ -65,7 +96,7 @@ namespace help {
         }
 
         std::cout << helper::AutoIndent(kLayers - 1 ? kLayers != 0 : kLayers) << "-HELP-" << '\n';
-        return 0;
+        return EXIT_SUCCESS;
     }
 }
 

@@ -15,7 +15,7 @@
     A header file for very small files.
 */
     /**
-        @fn inline void time_command(const int kLayers)
+        @fn inline void TimeCommand(const int kLayers)
         Outputs the current time.
 
         @param[in] kLayers The number of layers to output with.
@@ -34,7 +34,7 @@
         @param[out] does_file_exist Whether or not the file exists.
     */
     /**
-        @fn inline int BackDirectory(const unsigned int kRepeats)
+        @fn inline int ParentDirectory(const unsigned int kRepeats)
         Function used by the user to go up a certain amount of directories.
 
         @param[in] kRepeats The amount of times to go up a directory.
@@ -264,21 +264,21 @@
     The header file that contains the calculator for pShell.
 */
     /**
-        @fn inline int ProcessCommands(const std::vector<std::string> kCmds)
+        @fn inline int inline int ProcessCommands(const int kLayers, const std::vector<std::string> kCmds, double &calc_number)
         The function used to process commands from the user.
 
         @param[in] kCmds A vector of the commands.
         @param[out] exit_Code The exit code of the function.
     */
     /**
-        @fn inline int CalcCycle(const int kLayers)
+        @fn inline int CalcCycle(const int kLayers, double &calc_number)
         The function called each time the calculator asks for a command.
 
         @param[in] kLayers The amount of layers to print out.
         @param[out] exit_code The exit code.
     */
     /**
-        @fn inline int main(const int kLayers)
+        @fn inline int main(const int kLayers, double &calc_number)
         The function that starts running the calculator.
 
         @param[out] exit_Code The exit code for the calculator.

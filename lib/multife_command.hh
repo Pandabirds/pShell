@@ -13,14 +13,61 @@
 #include <unistd.h>
 #include <string.h>
 #include <signal.h>
+#include <time.h>
 #include <sys/stat.h>
 #include <sys/statvfs.h>
 
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 namespace multife {
+
+    /**
+        @fn inline std::string GetCurrentWorkingDirectory(void)
+        Returns the current working directory without using c-strings and getcwd().
+
+        @param[out] cwd The current working directory.
+    */
+    inline std::string GetCurrentWorkingDirectory(void) {
+        const unsigned int kMax = 1024;
+        char buffer[kMax];
+        getcwd(buffer, kMax);
+        return std::string(buffer);
+    }
+
+    // Vectors for storing dir history.
+    static std::vector<std::string> back_vector;
+    static std::vector<std::string> next_vector;
+    
+    inline int BackDirectory() {
+        next_vector.push_back(GetCurrentWorkingDirectory());
+        chdir(back_vector.back().c_str());
+        back_vector.pop_back();
+        
+        return 0;
+    }
+
+    inline int NextDirectory() {
+        back_vector.push_back(GetCurrentWorkingDirectory());
+        chdir(next_vector.back().c_str());
+        next_vector.pop_back();
+        
+        return 0;
+    }
+
+    /**
+        @fn std::string GetFileExtension(const std::string kPath)
+        Gets the characters after the last case of "." in a string. Intended to
+        be used for getting the file extension of filenames.
+
+        @param[in] kPath The filename to search.
+        @param[out] extension The extension of the filename.
+    */
+    inline std::string GetFileExtension(const std::string kPath) {
+        return kPath.substr(kPath.find_last_of(".") + 1);
+    }
 
     /**
         @fn inline bool FileExists(const std::string kPath)
@@ -43,19 +90,19 @@ namespace multife {
     }
 
     /**
-        @fn inline int BackDirectory(const unsigned int kRepeats)
+        @fn inline int ParentDirectory(const unsigned int kRepeats)
         Function used by the user to go up a certain amount of directories.
 
         @param[in] kRepeats The amount of times to go up a directory.
         @param[out] exit_code The exit code.
     */
-    inline int BackDirectory(const unsigned int kRepeats) {
+    inline int ParentDirectory(const unsigned int kRepeats) {
         
         for (size_t i = 0; i < kRepeats; ++i) {
             chdir("..");
         }
 
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -106,7 +153,7 @@ namespace multife {
         if (kCmds.size() > 2) {
             if (kCmds[2] == "bypass") {
                 system(("rm -r " + kPath).c_str());
-                return 0;
+                return EXIT_SUCCESS;
             }
         }
 
@@ -115,13 +162,13 @@ namespace multife {
         std::cout << helper::AutoIndent(kLayers);
         std::getline(std::cin, user_confirm);
         if (!(user_confirm == "y")) {
-            return 0;
+            return EXIT_SUCCESS;
         }
 
         // Bit of a hacky solution but it works.
         system(("rm -r " + kPath).c_str());
 
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -146,7 +193,7 @@ namespace multife {
         }
 
         target_file.close();
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -228,20 +275,7 @@ namespace multife {
             std::cout << line_holder[i] << '\n';
         }
 
-        return 0;
-    }
-
-    /**
-        @fn inline std::string GetCurrentWorkingDirectory(void)
-        Returns the current working directory without using c-strings and getcwd().
-
-        @param[out] cwd The current working directory.
-    */
-    inline std::string GetCurrentWorkingDirectory(void) {
-        const unsigned int kMax = 1024;
-        char buffer[kMax];
-        getcwd(buffer, kMax);
-        return std::string(buffer);
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -256,7 +290,7 @@ namespace multife {
             return 1;
         };
         
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -276,7 +310,7 @@ namespace multife {
 
         target_file.close();
         
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -326,11 +360,18 @@ namespace multife {
                     type = "DIR";
                 }
 
-                std::cout << helper::AutoIndent(kLayers) << "<" << type << "> <" << entry->d_name << ">" << '\n';
+                struct stat t_stat;
+                stat(entry->d_name, &t_stat);
+                struct tm * time_info = localtime(&t_stat.st_ctime);
+                std::string date_made = asctime(time_info);
+                date_made = date_made.substr(0, date_made.find('\n'));
+                std::cout << helper::AutoIndent(kLayers) << "<" << type << ">";
+                std::cout << "      <" << entry->d_name << ">";
+                std::cout << helper::MultiplyString(" ", 25 - std::string(entry->d_name).size() > 1 ? 25 - std::string(entry->d_name).size() : 1) << "<" << date_made <<  ">" << '\n';
             }
         }
 
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -356,7 +397,7 @@ namespace multife {
 
         target_file.close();
 
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -399,11 +440,11 @@ namespace multife {
         Exited:
 
         target_file.close();
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     /**
-        @file inlien int ExecuteFile(const std::string kPath)
+        @fn inlien int ExecuteFile(const std::string kPath)
         Tests if a file is executable, if it is, executes it using system().
 
         @param[in] kPath The path to the file to execute.
@@ -413,7 +454,7 @@ namespace multife {
         if (!access(kPath.c_str(), X_OK) && IsFile(kPath)) {
             system(("./" + kPath).c_str());
         }
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -454,6 +495,7 @@ namespace multife {
             }
 
             if (kCmds[0] == "cd") {
+                back_vector.push_back(GetCurrentWorkingDirectory());
                 chdir(kCmds[1].c_str());
             }
 
@@ -469,8 +511,8 @@ namespace multife {
                 DeleteItem(kCmds[1], kLayers + 1, kCmds);
             }
 
-            if (kCmds[0] == "back") {
-                BackDirectory(stoi(kCmds[1]));
+            if (kCmds[0] == "parent") {
+                ParentDirectory(stoi(kCmds[1]));
             }
 
             if (kCmds[0] == "newfile") {
@@ -498,7 +540,15 @@ namespace multife {
             help::main(kLayers + 1, std::vector<std::string> ({"help", "multife"}));
         }
 
-        return 0;
+        if (kCmds[0] == "back" && back_vector.size() != 0) {
+            BackDirectory();
+        }
+
+        if (kCmds[0] == "next" && next_vector.size() != 0) {
+            NextDirectory();
+        }
+
+        return EXIT_SUCCESS;
     }
 
     /** 
@@ -521,7 +571,7 @@ namespace multife {
             return 1;
         }
 
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     /**
@@ -538,7 +588,7 @@ namespace multife {
                 break;
         }
         std::cout << helper::AutoIndent(kLayers - 1 ? kLayers != 0 : kLayers) << "-MULTIFE-" << '\n';
-        return 0;
+        return EXIT_SUCCESS;
     }
 }
 

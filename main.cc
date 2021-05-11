@@ -13,15 +13,9 @@
 #include <vector>
 #include <string>
 
-//TODO: Add global commmand history(???)
-//TODO: Allow users to execute files
-
-
-// Defining superglobal variables.
-
 // Number that stores the last number used in Calculator.
 // It is used to let the calculator remember the number between uses.
-double CalcNumber = 0;
+double calc_number = 0;
 
 /**
     @fn int CommandCycle(const int kLayers)
@@ -44,7 +38,7 @@ int CommandCycle(const int kLayers) {
         exit(0);
 
     if (cmds[0] == "calc")
-        calc::main(kLayers + 1);
+        calc::main(kLayers + 1, calc_number);
     
     if (cmds[0] == "help")
         help::main(kLayers + 1, cmds);
@@ -53,7 +47,15 @@ int CommandCycle(const int kLayers) {
         multife::main(kLayers + 1);
 
     if (cmds[0] == "time" || cmds[0] == "date") {
-        small_functions::time_command(kLayers + 1);
+        small_functions::TimeCommand(kLayers + 1);
+    }
+
+    if (cmds[0] == "stopwatch") {
+        small_functions::Stopwatch(kLayers + 1);
+    }
+
+    if (cmds[0] == "clear" || cmds[0] == "cls") {
+        system("clear");
     }
 
     if (cmds.size() > 1) {
@@ -66,7 +68,7 @@ int CommandCycle(const int kLayers) {
         }
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int main(void) {
@@ -79,5 +81,5 @@ int main(void) {
         CommandCycle(kLayers);
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
